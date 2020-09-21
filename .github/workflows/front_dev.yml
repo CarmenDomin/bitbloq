@@ -35,6 +35,11 @@ jobs:
     name: Setup, Build, Publish, and Deploy frontend at dev
     runs-on: ubuntu-latest
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
