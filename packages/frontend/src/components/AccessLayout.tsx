@@ -22,7 +22,7 @@ const AccessLayout: FC<IAccessLayoutProps> = ({
   return (
     <Wrap>
       <Container size={size}>
-        <Logo src={logoBetaImage} alt="Bitbloq Beta Test" />
+        <Logo src={logoBetaImage} alt="Bitbloq Beta" />
         <MainPanel size={size}>
           <Title>{panelTitle}</Title>
           <HorizontalRule small={true} />
