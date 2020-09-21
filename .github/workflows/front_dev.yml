@@ -41,7 +41,7 @@ jobs:
           ref: develop
           submodules: recursive
 
-        # Setup gcloud CLI
+      # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: "270.0.0"
@@ -68,27 +68,27 @@ jobs:
             --build-arg GITHUB_SHA=$GITHUB_SHA \
             --build-arg GITHUB_REF=$GITHUB_REF .
 
-      # Delete previous existing docker images
-      - name: Detele previous images
-        run: gcloud container images delete $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME --force-delete-tags
-        continue-on-error: true
+      # # Delete previous existing docker images
+      # - name: Detele previous images
+      #   run: gcloud container images delete $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME --force-delete-tags
+      #   continue-on-error: true
 
-      # Push the Docker image to Google Container Registry
-      - name: Publish
-        run: |
-          gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-          docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME
+      # # Push the Docker image to Google Container Registry
+      # - name: Publish
+      #   run: |
+      #     gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+      #     docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME
 
-      # Deploy the Docker image to the GKE cluster
-      - name: Deploy
-        run: |
-          gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
-          kubectl --namespace=$NAMESPACE set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME
-          kubectl --namespace=$NAMESPACE delete pod --selector=name=$DEPLOYMENT_NAME
-          kubectl get services -o wide
+      # # Deploy the Docker image to the GKE cluster
+      # - name: Deploy
+      #   run: |
+      #     gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+      #     kubectl --namespace=$NAMESPACE set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME=$REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME
+      #     kubectl --namespace=$NAMESPACE delete pod --selector=name=$DEPLOYMENT_NAME
+      #     kubectl get services -o wide
 
-      # Slack notification
-      - name: Slack notification
-        run: 'curl -X POST -H ''Content-type: application/json'' --data ''{"attachments":[{"color":"#36a64f","text":"Bitbloq front deployed at dev"}]}'' https://hooks.slack.com/services/$SLACK_HOOK'
-        shell: bash
-        continue-on-error: true
+      # # Slack notification
+      # - name: Slack notification
+      #   run: 'curl -X POST -H ''Content-type: application/json'' --data ''{"attachments":[{"color":"#36a64f","text":"Bitbloq front deployed at dev"}]}'' https://hooks.slack.com/services/$SLACK_HOOK'
+      #   shell: bash
+      #   continue-on-error: true
