@@ -64,9 +64,7 @@ jobs:
       # Build the Docker image
       - name: Build Frontend App
         run: |
-          docker build -f ./packages/frontend/Dockerfile -t $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$DEPLOYMENT_NAME \
-            --build-arg GITHUB_SHA=$GITHUB_SHA \
-            --build-arg GITHUB_REF=$GITHUB_REF .
+          docker build - < ./packages/frontend/Dockerfile
 
       # # Delete previous existing docker images
       # - name: Detele previous images
