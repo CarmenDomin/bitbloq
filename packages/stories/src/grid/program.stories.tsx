@@ -18,6 +18,7 @@ export const Program = () => {
         position: "relative"
       }}
     >
+      <div>Hola</div>
       <GridExercise
         actions={actions}
         availableBloqs={{
